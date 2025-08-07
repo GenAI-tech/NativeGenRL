@@ -728,8 +728,8 @@ class DataParallelDiffusionPPOActor(BasePPOActor):
                         current_latents = data['latents'][:, step_idx]  # (batch_size, ...)
                         current_next_latents = data['next_latents'][:, step_idx]  # (batch_size, ...)
                         current_timesteps = data['timesteps'][:, step_idx]  # (batch_size,)
-                        current_old_log_prob = old_log_prob[:, step_idx]  # (batch_size,)
-                        current_advantages = advantages[:, step_idx]  # (batch_size,)
+                        current_old_log_prob = old_log_prob[:, step_idx].unsqueeze(1)  # (batch_size,)
+                        current_advantages = advantages[:, step_idx].unsqueeze(1)  # (batch_size,)
                         
                         # Prepare data for single timestep forward pass
                         timestep_data = {
@@ -757,12 +757,15 @@ class DataParallelDiffusionPPOActor(BasePPOActor):
                         
                         # Create response mask for current timestep (all valid)
                         response_mask = torch.ones_like(log_prob, dtype=torch.bool)
-
+                        
+                        # shape check
+                        assert current_old_log_prob.shape == log_prob.shape == current_advantages.shape, f'current_old_log_prob.shape: {current_old_log_prob.shape}, log_prob.shape: {log_prob.shape}, current_advantages.shape: {current_advantages.shape}'
+                        
                         # Compute policy loss for current timestep
                         pg_loss, pg_clipfrac, ppo_kl = core_algos.compute_policy_loss(
-                            old_log_prob=current_old_log_prob.unsqueeze(1),
+                            old_log_prob=current_old_log_prob,
                             log_prob=log_prob,
-                            advantages=current_advantages.unsqueeze(1),
+                            advantages=current_advantages,
                             eos_mask=response_mask,
                             cliprange=clip_ratio,
                             uids=uids,

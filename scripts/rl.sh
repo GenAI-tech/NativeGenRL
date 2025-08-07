@@ -71,7 +71,7 @@ python3 -m verl.trainer.image_generation_rl \
     actor_rollout_ref.actor.ignore_img_start=False \
     +actor_rollout_ref.actor.update_mode=image \
     'actor_rollout_ref.actor.checkpoint.contents=["model","hf_model","optimizer","extra"]' \
-    actor_rollout_ref.actor.optim.lr=5e-6 \
+    actor_rollout_ref.actor.optim.lr=5e-5 \
     actor_rollout_ref.actor.adaptive_entropy_coeff.enable=False \
     actor_rollout_ref.actor.adaptive_entropy_coeff.text.init_alpha=0.0 \
     actor_rollout_ref.actor.adaptive_entropy_coeff.text.target_entropy=2.0 \
@@ -101,7 +101,7 @@ python3 -m verl.trainer.image_generation_rl \
     actor_rollout_ref.rollout.cot_generate=True \
     actor_rollout_ref.rollout.val_kwargs.do_sample=True \
     +actor_rollout_ref.rollout.text_guidance_scale=5.0 \
-    +actor_rollout_ref.rollout.image_guidance_scale=2.0 \
+    +actor_rollout_ref.rollout.image_guidance_scale=1.0 \
     +actor_rollout_ref.rollout.cfg_enabled=True \
     +actor_rollout_ref.rollout.height=384 \
     +actor_rollout_ref.rollout.width=384 \

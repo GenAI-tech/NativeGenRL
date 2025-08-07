@@ -388,8 +388,8 @@ class ActorRolloutRefWorker(Worker):
             optimized_params = actor_module_fsdp.parameters()
             actor_optimizer = optim.AdamW(optimized_params,
                                           lr=optim_config.lr,
-                                        #   betas=optim_config.get('betas', (0.9, 0.999)),
-                                          betas=optim_config.get('betas', (0.9, 0.95)), # llama param, larger grad for earlier layers
+                                          betas=optim_config.get('betas', (0.9, 0.999)),
+                                        #   betas=optim_config.get('betas', (0.9, 0.95)), # llama param, larger grad for earlier layers
                                           weight_decay=optim_config.get('weight_decay', 1e-2))
 
             total_steps = optim_config.get('total_training_steps', 0)

@@ -985,7 +985,7 @@ class OmniGen2Pipeline(DiffusionPipeline, OmniGen2LoraLoaderMixin):
                 prev_sample, log_prob, prev_sample_mean, std_dev_t = sde_step_with_logprob(
                     self.scheduler,
                     model_pred.float(),
-                    current_timestep[0].unsqueeze(0),  # Match original shape (1,) instead of (batch_size,)
+                    current_timestep,  # Match original shape (1,) or (batch_size,)
                     current_latents.float(),
                     prev_sample=current_next_latents.float(),  # Use stored next_latents
                     noise_level=noise_level,
