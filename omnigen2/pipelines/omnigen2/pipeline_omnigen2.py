@@ -718,7 +718,7 @@ class OmniGen2Pipeline(DiffusionPipeline, OmniGen2LoraLoaderMixin):
                         freqs_cis=freqs_cis,
                         prompt_attention_mask=negative_prompt_attention_mask,
                         ref_image_hidden_states=ref_latents,
-                    )
+                    ).detach()
 
                     if enable_taylorseer:
                         self.transformer.cache_dic = model_pred_uncond_cache_dic
@@ -734,7 +734,7 @@ class OmniGen2Pipeline(DiffusionPipeline, OmniGen2LoraLoaderMixin):
                         freqs_cis=freqs_cis,
                         prompt_attention_mask=negative_prompt_attention_mask,
                         ref_image_hidden_states=None,
-                    )
+                    ).detach()
 
                     model_pred = model_pred_uncond + image_guidance_scale * (model_pred_ref - model_pred_uncond) + \
                         text_guidance_scale * (model_pred - model_pred_ref)
@@ -753,7 +753,7 @@ class OmniGen2Pipeline(DiffusionPipeline, OmniGen2LoraLoaderMixin):
                         freqs_cis=freqs_cis,
                         prompt_attention_mask=negative_prompt_attention_mask,
                         ref_image_hidden_states=None,
-                    )
+                    ).detach()
                     model_pred = model_pred_uncond + text_guidance_scale * (model_pred - model_pred_uncond)
 
                 # Use SDE step with log probability calculation
@@ -943,7 +943,7 @@ class OmniGen2Pipeline(DiffusionPipeline, OmniGen2LoraLoaderMixin):
                         freqs_cis=freqs_cis,
                         prompt_attention_mask=negative_prompt_attention_mask,
                         ref_image_hidden_states=ref_latents,
-                    )
+                    ).detach()
 
                     if enable_taylorseer:
                         self.transformer.cache_dic = model_pred_uncond_cache_dic
@@ -959,7 +959,7 @@ class OmniGen2Pipeline(DiffusionPipeline, OmniGen2LoraLoaderMixin):
                         freqs_cis=freqs_cis,
                         prompt_attention_mask=negative_prompt_attention_mask,
                         ref_image_hidden_states=None,
-                    )
+                    ).detach()
 
                     model_pred = model_pred_uncond + image_guidance_scale * (model_pred_ref - model_pred_uncond) + \
                         text_guidance_scale * (model_pred - model_pred_ref)
@@ -978,7 +978,7 @@ class OmniGen2Pipeline(DiffusionPipeline, OmniGen2LoraLoaderMixin):
                         freqs_cis=freqs_cis,
                         prompt_attention_mask=negative_prompt_attention_mask,
                         ref_image_hidden_states=None,
-                    )
+                    ).detach()
                     model_pred = model_pred_uncond + text_guidance_scale * (model_pred - model_pred_uncond)
                 
                 # Compute log probability using SDE step (same as processing())
